@@ -10,6 +10,7 @@
 
     ext.my_first_block = function() {
         // Code that gets executed when the block is run
+        alert("!!");
     };
 
     // Block and block menu descriptions
