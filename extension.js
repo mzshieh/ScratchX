@@ -9,7 +9,7 @@
     };
 
     function _get_voices() {
-        var ret = ['default'];
+        var ret = [];
         var voices = speechSynthesis.getVoices();
         
         for(var i = 0; i < voices.length; i++ ) {
