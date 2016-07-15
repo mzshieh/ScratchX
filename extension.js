@@ -15,7 +15,7 @@
     // Status reporting code
     // Use this to report missing hardware, plugin or unsupported browser
     ext._getStatus = function() {
-        if(voice == null) {
+        if(voice_count == 0) {
             /* global speechSynthesis */
             var voices = speechSynthesis.getVoices();
             voice_count = voices.length;
@@ -25,9 +25,6 @@
             }
             console.log(voice.toString());
             return {status: 1, msg: 'Not ready'};
-        }
-        if(voice_count == 0) {
-            return {status: 1, msg: 'The browser has no voices.'};
         }
         return {status: 2, msg: 'Ready'};
     };
