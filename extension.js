@@ -14,19 +14,6 @@
         return {status: 2, msg: 'Ready'};
     };
 
-    ext.detect_lang = function() {
-        var voices = speechSynthesis.getVoices();
-        if(voices.length == 0) {
-            console.log('GG');
-        }
-        var ret = '';
-        for(var i = 0; i < voices.length; i++ ) {
-            console.log(voices[i].lang.toString()+": "+voices[i].name.toString());
-            ret += voices[i].lang.toString()+',';
-        }
-        return ret;
-    };
-
     ext.say = function(text) {
         // Code that gets executed when the block is run
         var msg = new SpeechSynthesisUtterance(text);
@@ -40,6 +27,7 @@
         for(var i = 0; i < voices.length; i++) {
             if(voices[i].lang.toString() == 'ko-KR') {
                 msg.voice = voices[i];
+                break;
             }
         }
         window.speechSynthesis.speak(msg);
@@ -52,20 +40,19 @@
         for(var i = 0; i < voices.length; i++) {
             if(voices[i].lang.toString() == lang) {
                 msg.voice = voices[i];
-                window.speechSynthesis.speak(msg);
+                break;
             }
         }
-//        window.speechSynthesis.speak(msg);
+        window.speechSynthesis.speak(msg);
     };
     
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
             // Block type, block name, function name
-            ['r', 'detect languages', 'detect_lang'],
             [' ', 'say %s', 'say', "Hello!"],
             [' ', 'say %s in 한국의', 'say_korean', '한국의'],
-            [' ', 'say %s in lang %s', 'say_lang', '한국의', 'ko-KR'],
+            [' ', 'say %s in lang %s', 'say_lang', '說中文', 'zh-TW'],
         ],
     };
 
