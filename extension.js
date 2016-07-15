@@ -8,19 +8,19 @@
         return {status: 2, msg: 'Ready'};
     };
 
-    ext.my_first_block = function() {
+    ext.my_first_block = function(msg) {
         // Code that gets executed when the block is run
-        alert("!!");
+        console.log(msg);
     };
 
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
             // Block type, block name, function name
-            [' ', 'alert(!!)', 'my_first_block'],
+            [' ', 'log %s', 'my_first_block'],
         ]
     };
 
     // Register the extension
-    ScratchExtensions.register('My first extension', descriptor, ext);
+    ScratchExtensions.register('MZ\'s extension', descriptor, ext);
 })({});
