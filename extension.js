@@ -70,5 +70,6 @@
     };
 
     // Register the extension
+    /* global ScratchExtensions */
     ScratchExtensions.register('MZ\'s extension', descriptor, ext);
 })({});
