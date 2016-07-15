@@ -25,6 +25,7 @@
         for(var i = 0; i < voices.length; i++ ) {
             msg.voice = voices[i];
             console.log(voices[i].name.toString()+" "+msg.lang.toString());
+            window.speechSynthesis.speak(msg);
         }
         
     };
