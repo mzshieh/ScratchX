@@ -18,7 +18,7 @@
     var descriptor = {
         blocks: [
             // Block type, block name, function name
-            [' ', 'say \"%s\" in English', 'say_eng', "Hello!"],
+            [' ', 'say %s in English', 'say_eng', "Hello!"],
         ]
     };
 
