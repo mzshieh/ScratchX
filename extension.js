@@ -52,9 +52,10 @@
         for(var i = 0; i < voices.length; i++) {
             if(voices[i].lang.toString() == lang) {
                 msg.voice = voices[i];
+                window.speechSynthesis.speak(msg);
             }
         }
-        window.speechSynthesis.speak(msg);
+//        window.speechSynthesis.speak(msg);
     };
     
     // Block and block menu descriptions
