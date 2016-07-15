@@ -8,16 +8,17 @@
         return {status: 2, msg: 'Ready'};
     };
 
-    ext.my_first_block = function(msg) {
+    ext.my_first_block = function(text) {
         // Code that gets executed when the block is run
-        console.log(msg);
+        msg = new SpeechSynthesisUtterance(text);
+        window.speechSynthesis.speak(msg);
     };
 
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
             // Block type, block name, function name
-            [' ', 'log %s', 'my_first_block'],
+            [' ', 'say %s', 'my_first_block', "Yes"],
         ]
     };
 
