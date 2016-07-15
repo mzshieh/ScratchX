@@ -35,13 +35,25 @@
 
     ext.say_korean = function(text) {
         var msg = new SpeechSynthesisUtterance(text);
-        msg.lang = "ko-KR";
+        msg.lang = 'ko-KR';
+        var voices = speechSynthesis.getVoices();
+        for(var i = 0; i < voices.length; i++) {
+            if(voices[i].lang.toString() == 'ko-KR') {
+                msg.voice = voices[i];
+            }
+        }
         window.speechSynthesis.speak(msg);
     };
     
     ext.say_lang = function(text,lang) {
         var msg = new SpeechSynthesisUtterance(text);
         msg.lang = lang;
+        var voices = speechSynthesis.getVoices();
+        for(var i = 0; i < voices.length; i++) {
+            if(voices[i].lang.toString() == lang) {
+                msg.voice = voices[i];
+            }
+        }
         window.speechSynthesis.speak(msg);
     };
     
