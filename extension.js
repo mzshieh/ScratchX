@@ -20,6 +20,7 @@
             for(var i = 0; i < voices.length; i++) {
                 voice[voices[i].lang.toString()] = voice[i];
             }
+            console.log(voice.toString());
             return {status: 1, msg: 'Not ready'};
         }
         return {status: 2, msg: 'Ready'};
