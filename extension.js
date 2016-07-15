@@ -16,8 +16,17 @@
 
     ext.say = function(text) {
         // Code that gets executed when the block is run
-        msg = new SpeechSynthesisUtterance(text);
+        var msg = new SpeechSynthesisUtterance(text);
         window.speechSynthesis.speak(msg);
+        var voices = speechSynthesis.getVoices();
+        if(voices.length == 0) {
+            console.log('GG');
+        }
+        for(var i = 0; i < voices.length; i++ ) {
+            msg.voice = voices[i];
+            console.log(voices[i].name.toString());
+        }
+        
     };
 
     
