@@ -18,7 +18,7 @@
             var voices = speechSynthesis.getVoices();
             voice = {};
             for(var i = 0; i < voices.length; i++) {
-                voice[voices[i].lang.toString()] = voice[i];
+                voice[voices[i].lang.toString()] = voices[i];
             }
             console.log(voice.toString());
             return {status: 1, msg: 'Not ready'};
