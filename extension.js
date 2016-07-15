@@ -8,7 +8,7 @@
         return {status: 2, msg: 'Ready'};
     };
 
-    ext.my_first_block = function(text) {
+    ext.say_eng = function(text) {
         // Code that gets executed when the block is run
         msg = new SpeechSynthesisUtterance(text);
         window.speechSynthesis.speak(msg);
