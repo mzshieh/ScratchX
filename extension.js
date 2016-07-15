@@ -7,6 +7,7 @@
 (function(ext) {
     // The voices
     var voice = null;
+    var voice_count = 0;
     
     // Cleanup function when the extension is unloaded
     ext._shutdown = function() {};
@@ -15,7 +16,9 @@
     // Use this to report missing hardware, plugin or unsupported browser
     ext._getStatus = function() {
         if(voice == null) {
+            /* global speechSynthesis */
             var voices = speechSynthesis.getVoices();
+            voice_count = voices.length;
             voice = {};
             for(var i = 0; i < voices.length; i++) {
                 voice[voices[i].lang.toString()] = voices[i];
@@ -23,11 +26,14 @@
             console.log(voice.toString());
             return {status: 1, msg: 'Not ready'};
         }
+        if(voice_count == 0) {
+            return {status: 1, msg: 'The browser has no voices.'};
+        }
         return {status: 2, msg: 'Ready'};
     };
 
     ext.say = function(text) {
-        // Code that gets executed when the block is run
+        /* global SpeechSynthesisUtterance */
         var msg = new SpeechSynthesisUtterance(text);
         if('en-US' in voice) {
             msg.voice = voice['en-US'];
@@ -37,6 +43,7 @@
 
     ext.say_korean = function(text) {
         if('ko-KR' in voice) {
+            /* global SpeechSynthesisUtterance */
             var msg = new SpeechSynthesisUtterance(text);
             msg.voice = voice['ko-KR'];
             window.speechSynthesis.speak(msg);
@@ -45,6 +52,7 @@
     
     ext.say_lang = function(text,lang) {
         if(lang in voice) {
+            /* global SpeechSynthesisUtterance */
             var msg = new SpeechSynthesisUtterance(text);
             msg.voice = voice[lang];
             window.speechSynthesis.speak(msg);
