@@ -11,7 +11,9 @@
     function _get_voices() {
         var ret = [];
         var voices = speechSynthesis.getVoices();
-        
+        if(voices.length == 0) {
+            console.log('GG');
+        }
         for(var i = 0; i < voices.length; i++ ) {
             ret.push(voices[i].name);
             console.log(voices.toString());
