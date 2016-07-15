@@ -28,12 +28,18 @@
         }
     };
 
+    ext.say_korean = function(text) {
+        var msg = new SpeechSynthesisUtterance(text);
+        msg.lang = "ko-KR";
+        window.speechSynthesis.speak(msg);
+    };
     
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
             // Block type, block name, function name
             [' ', 'say %s', 'say', "Hello!"],
+            [' ', 'say %s in 한국의', 'say_korean', '한국의'],
         ],
     };
 
