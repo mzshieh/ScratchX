@@ -8,12 +8,6 @@
         return {status: 2, msg: 'Ready'};
     };
 
-    ext.say = function(text) {
-        // Code that gets executed when the block is run
-        msg = new SpeechSynthesisUtterance(text);
-        window.speechSynthesis.speak(msg);
-    };
-    
     function _get_voices() {
         var ret = ['default'];
         var voices = speechSynthesis.getVoices();
@@ -24,16 +18,21 @@
         }
         return ret;
     }
+
+    ext.say = function(text) {
+        // Code that gets executed when the block is run
+        msg = new SpeechSynthesisUtterance(text);
+        _get_voices();
+        window.speechSynthesis.speak(msg);
+    };
+
     
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
             // Block type, block name, function name
-            [' ', 'say %s in %m.voices', 'say', "Hello!", 'default'],
+            [' ', 'say %s', 'say', "Hello!"],
         ],
-        menus: {
-            voices: _get_voices(),
-        },
     };
 
     // Register the extension
