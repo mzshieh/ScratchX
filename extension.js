@@ -5,45 +5,49 @@
 **********************************************************************/
 
 (function(ext) {
+    // The voices
+    var voice = null;
+    
     // Cleanup function when the extension is unloaded
     ext._shutdown = function() {};
 
     // Status reporting code
     // Use this to report missing hardware, plugin or unsupported browser
     ext._getStatus = function() {
+        if(voice == null) {
+            var voices = speechSynthesis.getVoices();
+            voice = {};
+            for(var i = 0; i < voices.length; i++) {
+                voice[voices[i].lang.toString()] = voice[i];
+            }
+            return {status: 1, msg: 'Not ready'};
+        }
         return {status: 2, msg: 'Ready'};
     };
 
     ext.say = function(text) {
         // Code that gets executed when the block is run
         var msg = new SpeechSynthesisUtterance(text);
+        if('en-US' in voice) {
+            msg.voice = voice['en-US'];
+        }
         window.speechSynthesis.speak(msg);
     };
 
     ext.say_korean = function(text) {
-        var msg = new SpeechSynthesisUtterance(text);
-        msg.lang = 'ko-KR';
-        var voices = speechSynthesis.getVoices();
-        for(var i = 0; i < voices.length; i++) {
-            if(voices[i].lang.toString() == 'ko-KR') {
-                msg.voice = voices[i];
-                break;
-            }
+        if('ko-KR' in voice) {
+            var msg = new SpeechSynthesisUtterance(text);
+            msg.voice = voice['ko-KR'];
+            window.speechSynthesis.speak(msg);
         }
-        window.speechSynthesis.speak(msg);
     };
     
     ext.say_lang = function(text,lang) {
-        var msg = new SpeechSynthesisUtterance(text);
-        msg.lang = lang;
-        var voices = speechSynthesis.getVoices();
-        for(var i = 0; i < voices.length; i++) {
-            if(voices[i].lang.toString() == lang) {
-                msg.voice = voices[i];
-                break;
-            }
+        if(lang in voice) {
+            var msg = new SpeechSynthesisUtterance(text);
+            msg.voice = voice[lang];
+            window.speechSynthesis.speak(msg);
         }
-        window.speechSynthesis.speak(msg);
     };
     
     // Block and block menu descriptions
