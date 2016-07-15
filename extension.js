@@ -1,3 +1,9 @@
+/* Modified from the following extension.
+/**********************************************************************
+   Extension demonstrating a simple version of the Text to Speech block
+   Sayamindu Dasgupta <sayamindu@media.mit.edu>, May 2014
+**********************************************************************/
+
 (function(ext) {
     // Cleanup function when the extension is unloaded
     ext._shutdown = function() {};
