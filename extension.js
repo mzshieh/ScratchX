@@ -14,12 +14,26 @@
         window.speechSynthesis.speak(msg);
     };
     
+    function _get_voices() {
+        var ret = ['default'];
+        var voices = speechSynthesis.getVoices();
+        
+        for(var i = 0; i < voices.length; i++ ) {
+            ret.push(voices[i].name);
+            console.log(voices.toString());
+        }
+        return ret;
+    }
+    
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
             // Block type, block name, function name
-            [' ', 'say %s', 'say', "Hello!"],
-        ]
+            [' ', 'say %s in %m.voices', 'say', "Hello!", 'default'],
+        ],
+        menus: {
+            voices: _get_voices(),
+        },
     };
 
     // Register the extension
