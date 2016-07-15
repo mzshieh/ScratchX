@@ -42,7 +42,7 @@
         if('zh-TW' in voice) {
             /* global SpeechSynthesisUtterance */
             var msg = new SpeechSynthesisUtterance(text);
-            msg.voice = voice['ko-KR'];
+            msg.voice = voice['zh-TW'];
             window.speechSynthesis.speak(msg);
         }
     };
