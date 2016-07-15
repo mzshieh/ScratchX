@@ -8,7 +8,7 @@
         return {status: 2, msg: 'Ready'};
     };
 
-    ext.say_eng = function(text) {
+    ext.say = function(text) {
         // Code that gets executed when the block is run
         msg = new SpeechSynthesisUtterance(text);
         window.speechSynthesis.speak(msg);
@@ -18,7 +18,7 @@
     var descriptor = {
         blocks: [
             // Block type, block name, function name
-            [' ', 'say %s in English', 'say_eng', "Hello!"],
+            [' ', 'say %s', 'say', "Hello!"],
         ]
     };
 
