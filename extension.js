@@ -8,10 +8,10 @@
         return {status: 2, msg: 'Ready'};
     };
 
-    ext.my_first_block = function(text) {
+    ext.my_first_block = function(lang, text) {
         // Code that gets executed when the block is run
         msg = new SpeechSynthesisUtterance(text);
-        msg.lang = "zh-TW";
+        msg.lang = lang;
         window.speechSynthesis.speak(msg);
     };
 
@@ -19,7 +19,7 @@
     var descriptor = {
         blocks: [
             // Block type, block name, function name
-            [' ', 'say %s', 'my_first_block', "Yes"],
+            [' ', 'say %s %s', 'my_first_block', "jp", "中文"],
         ]
     };
 
