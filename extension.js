@@ -11,6 +11,7 @@
     ext.my_first_block = function(text) {
         // Code that gets executed when the block is run
         msg = new SpeechSynthesisUtterance(text);
+        msg.lang = "zh-TW";
         window.speechSynthesis.speak(msg);
     };
 
