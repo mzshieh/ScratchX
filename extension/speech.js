@@ -54,6 +54,10 @@
                 callback();
             };
         }
+        else
+        {
+            callback();
+        }
     };
 
     ext.say_lang_rate = function(text,lang,rate,callback) {
