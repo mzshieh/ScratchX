@@ -13,7 +13,7 @@
     for(var i = 0; i < voices.length; i++) {
         voice[voices[i].lang.toString()] = voices[i];
     }
-    console.log(voice.toString());
+    console.log(voice);
 
     // Cleanup function when the extension is unloaded
     ext._shutdown = function() {};
