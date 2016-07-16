@@ -69,7 +69,7 @@
               dataType: 'jsonp',
               success: function( data ) {
                   // Got the data - parse it and return the temperature
-                  var ret = data['sample'][0][1][0];
+                  var ret = data['sample'];
                   callback(ret);
               }
         });
