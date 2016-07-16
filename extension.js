@@ -16,13 +16,8 @@
 
     // The voices
     /* global speechSynthesis */
-    var voices = speechSynthesis.getVoices();
     var voice = {};
-    var voice_count =  voices.length;
-    for(var i = 0; i < voices.length; i++) {
-        voice[voices[i].lang.toString()] = voices[i];
-    }
-    console.log(voice.toString());
+    var voice_count = 0;
 
     // Cleanup function when the extension is unloaded
     ext._shutdown = function() {};
@@ -30,6 +25,15 @@
     // Status reporting code
     // Use this to report missing hardware, plugin or unsupported browser
     ext._getStatus = function() {
+        if(voice_count == 0) {
+            var voices = speechSynthesis.getVoices();
+            voice_count = voices.length;
+            for(var i = 0; i < voice_count; i++) {
+                voice[voices[i].lang.toString()] = voices[i];
+            }
+            console.log(voice);
+            return {status: 1, msg: 'No voices detected'};
+        }
         return {status: 2, msg: 'Ready'};
     };
 
