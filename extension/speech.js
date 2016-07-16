@@ -76,5 +76,5 @@
 
     // Register the extension
     /* global ScratchExtensions */
-    ScratchExtensions.register('Speech synthesis extension', descriptor, ext);
+    ScratchExtensions.register('Speech synthesis', descriptor, ext);
 })({});

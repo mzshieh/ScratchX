@@ -75,5 +75,5 @@
 
     // Register the extension
     /* global ScratchExtensions */
-    ScratchExtensions.register('MZ\'s IoTtalk extension', descriptor, ext);
+    ScratchExtensions.register('IoTtalk', descriptor, ext);
 })({});
