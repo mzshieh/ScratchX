@@ -64,25 +64,42 @@
         ext.say_lang_rate(text,'zh-TW',1.0);
     };
     
-    ext.iottalk_remote = function(text,callback) {
+    ext.iottalk_remote_get = function(feature,callback) {
         /* global $ */
         
-        if(new Date().getTime()-last_query_timestamp<250 && text in last_result) {
-            callback(last_result[text]);
+        if(new Date().getTime()-last_query_timestamp<250 && feature in last_result) {
+            callback(last_result[feature]);
         }
         else {
             $.ajax({
-                url: 'http://140.113.199.229:9999/IoTtalk_Control_Panel/'+text,
+                url: 'http://140.113.199.229:9999/IoTtalk_Control_Panel/'+feature,
                 dataType: 'json',
                 success: function( data ) {
                   // Got the data - parse it and return the temperature
                     console.log(data);
-                    last_result[text]=data['samples'][0][1][0];
+                    last_result[feature]=data['samples'][0][1][0];
                     last_query_timestamp = new Date().getTime();
                     callback(data['samples'][0][1][0]);
                 }
             });
         }
+    };
+    
+    ext.iottalk_remote_put = function(feature, data, callback) {
+        if (!(data instanceof Array)) {
+            data = [data];
+        }
+        $.ajax({
+            'url': '/IoTtalk_Control_Panel/'+ feature,
+            'method': 'PUT',
+            'contentType': 'application/json',
+            'data': JSON.stringify({'data': data}),
+        }).done(function (msg) {
+            console.log('Successed: '+ msg);
+            callback();
+        }).fail(function (msg) {
+            console.log('failed: '+ msg.status +','+ msg.responseText);
+        });
     };
     
     // Block and block menu descriptions
@@ -94,8 +111,8 @@
             [' ', 'say %s in lang %s', 'say_lang', '程式設計', 'zh-TW'],
             [' ', 'say %s in lang %s at rate %n', 'say_lang_rate', '程式設計', 'zh-TW', 1],
             [' ', 'say %s in lang %s at rate %n at pitch %n of volume %n', 'say_lang_rate_pitch_vol', '程式設計', 'zh-TW', 1, 1, 1],
-            ['R', 'get %s from IoTtalk Remote', 'iottalk_remote', 'Keypad1'],
-            ['w', ]
+            ['R', 'get %s from IoTtalk Remote', 'iottalk_remote_get', 'Keypad1'],
+            ['w', 'Remote %s emit %s to IoTtalk', 'iottalk_remote_put', 'Keypad1', '7'],
         ],
     };
 
