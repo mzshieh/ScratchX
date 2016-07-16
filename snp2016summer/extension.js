@@ -10,7 +10,6 @@
     var voice_count = 0;
     var voice = {};
 
-
     // Cleanup function when the extension is unloaded
     ext._shutdown = function() {};
 
