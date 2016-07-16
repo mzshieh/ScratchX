@@ -1,8 +1,4 @@
-/* Modified from the following extension.
-/**********************************************************************
-   Extension demonstrating a simple version of the Text to Speech block
-   Sayamindu Dasgupta <sayamindu@media.mit.edu>, May 2014
-**********************************************************************/
+/* Modified from the ScratchX official example. */
 
 (function(ext) {
     
