@@ -70,7 +70,7 @@
             success: function( data ) {
               // Got the data - parse it and return the temperature
                 console.log(data);
-                callback(data['sample'][0][1][0]);
+                callback(data['samples'][0][1][0]);
             }
         });
 
