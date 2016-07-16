@@ -6,26 +6,21 @@
 
 (function(ext) {
     // The voices
-    var voice = null;
-    var voice_count = 0;
-    
+    /* global speechSynthesis */
+    var voices = speechSynthesis.getVoices();
+    var voice_count = voices.length;
+    var voice = {};
+    for(var i = 0; i < voices.length; i++) {
+        voice[voices[i].lang.toString()] = voices[i];
+    }
+    console.log(voice.toString());
+
     // Cleanup function when the extension is unloaded
     ext._shutdown = function() {};
 
     // Status reporting code
     // Use this to report missing hardware, plugin or unsupported browser
     ext._getStatus = function() {
-        if(voice_count == 0) {
-            /* global speechSynthesis */
-            var voices = speechSynthesis.getVoices();
-            voice_count = voices.length;
-            voice = {};
-            for(var i = 0; i < voices.length; i++) {
-                voice[voices[i].lang.toString()] = voices[i];
-            }
-            console.log(voice.toString());
-            return {status: 1, msg: 'Not ready'};
-        }
         return {status: 2, msg: 'Ready'};
     };
 
