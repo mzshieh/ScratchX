@@ -65,14 +65,16 @@
     ext.iottalk_remote = function(text,callback) {
         /* global $ */
         $.ajax({
-              url: 'http://140.113.199.229:9999/IoTtalk_Control_Panel/'+text,
-              dataType: 'jsonp',
-              success: function( data ) {
-                  // Got the data - parse it and return the temperature
-                  var ret = data['sample'];
-                  console.log(date.toString());
-                  callback(ret);
-              }
+            url: 'http://140.113.199.229:9999/IoTtalk_Control_Panel/'+text,
+            dataType: 'jsonp',
+            success: function( str ) {
+              // Got the data - parse it and return the temperature
+                console.log(str.toString());
+                var data = JSON.parse(str);
+                console.log(data.toString());
+                var ret = data['sample'][0][1][0];
+                callback(ret);
+            }
         });
 
     };
