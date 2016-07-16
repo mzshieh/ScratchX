@@ -17,6 +17,8 @@
     // Status reporting code
     // Use this to report missing hardware, plugin or unsupported browser
     ext._getStatus = function() {
+        // I am not sure how to initialize the extension.
+        // Check if voices are initialized
         if(voice_count == 0) {
             var voices = speechSynthesis.getVoices();
             voice_count = voices.length;
@@ -35,6 +37,8 @@
         if('en-US' in voice) {
             msg.voice = voice['en-US'];
         }
+        // speak even there is no English support
+        // I am not sure what will happen if the browser has no voices
         window.speechSynthesis.speak(msg);
         msg.onend = function(event) {
             callback();
@@ -42,6 +46,7 @@
     };
 
     ext.say_lang_rate_pitch_vol = function(text,lang,rate,pitch,vol,callback) {
+        // if language is supported, then say it
         if(lang in voice) {
             /* global SpeechSynthesisUtterance */
             var msg = new SpeechSynthesisUtterance(text);
@@ -50,11 +55,13 @@
             msg.pitch = pitch;
             msg.volume = vol;
             window.speechSynthesis.speak(msg);
+            
+            // fire the callback when msg ends
             msg.onend = function(event) {
                 callback();
             };
         }
-        else
+        else // otherwise ignore the command
         {
             callback();
         }
