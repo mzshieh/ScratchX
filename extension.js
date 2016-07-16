@@ -66,16 +66,11 @@
         /* global $ */
         $.ajax({
             url: 'http://140.113.199.229:9999/IoTtalk_Control_Panel/'+text,
-//            dataType: 'jsonp',
-            contentType: 'application/json',
-            success: function( str ) {
+            dataType: 'json',
+            success: function( data ) {
               // Got the data - parse it and return the temperature
-                console.log(str.toString());
-                callback(str);
-//                var data = JSON.parse(str);
-//                console.log(data.toString());
-//                var ret = data['sample'][0][1][0];
-//                callback(ret);
+                console.log(data);
+                callback(data['sample'][0][1][0]);
             }
         });
 
