@@ -8,6 +8,8 @@
     // The voices
     var voice = null;
     var voice_count = 0;
+    var last_query_timestamp = 0;
+    var last_result = {};
     
     // Cleanup function when the extension is unloaded
     ext._shutdown = function() {};
@@ -64,16 +66,23 @@
     
     ext.iottalk_remote = function(text,callback) {
         /* global $ */
-        $.ajax({
-            url: 'http://140.113.199.229:9999/IoTtalk_Control_Panel/'+text,
-            dataType: 'json',
-            success: function( data ) {
-              // Got the data - parse it and return the temperature
-                console.log(data);
-                callback(data['samples'][0][1][0]);
-            }
-        });
-
+        
+        if(new Date().getTime()-last_query_timestamp<250 && text in last_result) {
+            callback(last_result[text]);
+        }
+        else {
+            $.ajax({
+                url: 'http://140.113.199.229:9999/IoTtalk_Control_Panel/'+text,
+                dataType: 'json',
+                success: function( data ) {
+                  // Got the data - parse it and return the temperature
+                    console.log(data);
+                    last_result[text]=data['samples'][0][1][0];
+                    last_query_timestamp = new Date().getTime();
+                    callback(data['samples'][0][1][0]);
+                }
+            });
+        }
     };
     
     // Block and block menu descriptions
@@ -86,6 +95,7 @@
             [' ', 'say %s in lang %s at rate %n', 'say_lang_rate', '程式設計', 'zh-TW', 1],
             [' ', 'say %s in lang %s at rate %n at pitch %n of volume %n', 'say_lang_rate_pitch_vol', '程式設計', 'zh-TW', 1, 1, 1],
             ['R', 'get %s from IoTtalk Remote', 'iottalk_remote', 'Keypad1'],
+            ['w', ]
         ],
     };
 
