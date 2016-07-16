@@ -70,6 +70,7 @@
               success: function( data ) {
                   // Got the data - parse it and return the temperature
                   var ret = data['sample'];
+                  console.log(date.toString());
                   callback(ret);
               }
         });
