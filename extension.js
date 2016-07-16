@@ -9,7 +9,9 @@
     var voice = null;
     var voice_count = 0;
     var last_query_timestamp = 0;
-    var last_result = {};
+    var last_query_result = {};
+    var last_emit_timestamp = 0;
+    var last_emit_result = {};
     
     // Cleanup function when the extension is unloaded
     ext._shutdown = function() {};
@@ -67,8 +69,8 @@
     ext.iottalk_remote_get = function(feature,callback) {
         /* global $ */
         
-        if(new Date().getTime()-last_query_timestamp<250 && feature in last_result) {
-            callback(last_result[feature]);
+        if(new Date().getTime()-last_query_timestamp<250 && feature in last_query_result) {
+            callback(last_query_result[feature]);
         }
         else {
             $.ajax({
@@ -77,7 +79,7 @@
                 success: function( data ) {
                   // Got the data - parse it and return the temperature
                     console.log(data);
-                    last_result[feature]=data['samples'][0][1][0];
+                    last_query_result[feature]=data['samples'][0][1][0];
                     last_query_timestamp = new Date().getTime();
                     callback(data['samples'][0][1][0]);
                 }
@@ -86,6 +88,10 @@
     };
     
     ext.iottalk_remote_put = function(feature, data, callback) {
+        if(new Date().getTime()-last_emit_timestamp<250 && feature in last_emit_result) {
+            callback();
+            return;
+        }
         if (!(data instanceof Array)) {
             data = [data];
         }
@@ -96,6 +102,8 @@
             'data': JSON.stringify({'data': data}),
         }).done(function (msg) {
             console.log('Successed: '+ msg);
+            last_emit_timestamp=250;
+            last_emit_result[feature]=data;
             callback();
         }).fail(function (msg) {
             console.log('failed: '+ msg.status +','+ msg.responseText);
