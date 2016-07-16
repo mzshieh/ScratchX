@@ -66,7 +66,8 @@
         /* global $ */
         $.ajax({
             url: 'http://140.113.199.229:9999/IoTtalk_Control_Panel/'+text,
-            dataType: 'jsonp',
+//            dataType: 'jsonp',
+            contentType: 'application/json',
             success: function( str ) {
               // Got the data - parse it and return the temperature
                 console.log(str.toString());
