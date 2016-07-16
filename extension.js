@@ -90,7 +90,7 @@
             data = [data];
         }
         $.ajax({
-            'url': '/IoTtalk_Control_Panel/'+ feature,
+            'url': 'http://140.113.199.229:9999/IoTtalk_Control_Panel/'+ feature,
             'method': 'PUT',
             'contentType': 'application/json',
             'data': JSON.stringify({'data': data}),
