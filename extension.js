@@ -70,10 +70,11 @@
             success: function( str ) {
               // Got the data - parse it and return the temperature
                 console.log(str.toString());
-                var data = JSON.parse(str);
-                console.log(data.toString());
-                var ret = data['sample'][0][1][0];
-                callback(ret);
+                callback(str);
+//                var data = JSON.parse(str);
+//                console.log(data.toString());
+//                var ret = data['sample'][0][1][0];
+//                callback(ret);
             }
         });
 
