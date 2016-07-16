@@ -29,13 +29,16 @@
         return {status: 2, msg: 'Ready'};
     };
 
-    ext.say = function(text) {
+    ext.say = function(text,callback) {
         /* global SpeechSynthesisUtterance */
         var msg = new SpeechSynthesisUtterance(text);
         if('en-US' in voice) {
             msg.voice = voice['en-US'];
         }
         window.speechSynthesis.speak(msg);
+        msg.onend = function(event) {
+            callback();
+        }
     };
 
     ext.say_lang_rate_pitch_vol = function(text,lang,rate,pitch,vol) {
@@ -66,7 +69,7 @@
     var descriptor = {
         blocks: [
             // Block type, block name, function name
-            [' ', 'say %s', 'say', "Hello!"],
+            ['w', 'say %s', 'say', "Hello!"],
             [' ', '說%s', 'say_zh', '中文'],
             [' ', 'say %s in lang %s', 'say_lang', '程式設計', 'zh-TW'],
             [' ', 'say %s in lang %s at rate %n', 'say_lang_rate', '程式設計', 'zh-TW', 1],
