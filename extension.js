@@ -62,6 +62,20 @@
         ext.say_lang_rate(text,'zh-TW',1.0);
     };
     
+    ext.iottalk_remote = function(text,callback) {
+        /* global $ */
+        $.ajax({
+              url: 'http://140.113.199.229:9999/IoTtalk_Control_Panel/'+text,
+              dataType: 'jsonp',
+              success: function( data ) {
+                  // Got the data - parse it and return the temperature
+                  var ret = data['sample'][0][1][0];
+                  callback(ret);
+              }
+        });
+
+    };
+    
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
@@ -71,6 +85,7 @@
             [' ', 'say %s in lang %s', 'say_lang', '程式設計', 'zh-TW'],
             [' ', 'say %s in lang %s at rate %n', 'say_lang_rate', '程式設計', 'zh-TW', 1],
             [' ', 'say %s in lang %s at rate %n at pitch %n of volume %n', 'say_lang_rate_pitch_vol', '程式設計', 'zh-TW', 1, 1, 1],
+            ['R', 'get %s from IoTtalk Remote', 'iottalk_remote', 'Keypad1'],
         ],
     };
 
