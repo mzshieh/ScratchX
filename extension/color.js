@@ -41,7 +41,7 @@
     var descriptor = {
         blocks: [
             // Block type, block name, function name
-            ['r', 'Hue\( %n,%n,%n \)', 'heu', 0, 255, 0],
+            ['r', 'Hue\( %n,%n,%n \)', 'hue', 0, 255, 0],
         ],
     };
 
