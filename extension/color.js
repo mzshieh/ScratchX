@@ -22,16 +22,19 @@
         var m = Math.min(R,Math.min(G,B));
         var M = Math.max(R,Math.max(G,B));
         var C = M - m;
-        if(C<0.5/255) return -1;
-        C = C * 6;
-        if(M == R) {
+        if(C<0.5/255) return -1.0;
+        C = C * 6.0;
+        if(M == R && G >= B) {
             return (G-B) / C;
         }
         else if(M == G) {
             return (2 + (B-R)) / C;
         }
-        else {
+        else if(M == B) {
             return (4 + (R-G)) / C;
+        }
+        else {
+            return (6 + (G-B)) / C;
         }
     };
 
