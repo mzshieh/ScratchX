@@ -51,7 +51,7 @@
                     // data should looks like:
                     // {"samples":[["2016-07-17 07:42:16.763608",[255,255,0]],["2016-07-17 07:42:14.543544",[255,255,0]]]}
                     console.log(data);
-                    if(last_query_result[feature]!=data) {
+                    if(last_query_result[feature]['samples'][0][0]!=data['samples'][0][0]) {
                         lately_updated[feature] = true;
                     }
                     last_query_result[feature]=data;
@@ -65,9 +65,6 @@
     ext.iottalk_updated = function(feature) {
         if(!(feature in lately_updated)) {
             return false;
-        }
-        if(new Date().getTime()-last_query_timestamp>=250) {
-            ext.iottalk_remote_get(feature, function(){});
         }
         if(lately_updated[feature]===true)
         {
