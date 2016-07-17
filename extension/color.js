@@ -15,10 +15,10 @@
         return {status: 2, msg: 'Ready'};
     };
 
-    ext.hue = function(R,G,B) {
-        R = R / 255.0;
-        G = G / 255.0;
-        B = B / 255.0;
+    ext.hue = function(r,g,b) {
+        var R = r / 255.0;
+        var G = g / 255.0;
+        var B = b / 255.0;
         var m = Math.min(R,Math.min(G,B));
         var M = Math.max(R,Math.max(G,B));
         var C = M - m;
