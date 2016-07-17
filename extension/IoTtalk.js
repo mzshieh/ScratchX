@@ -22,11 +22,21 @@
         return {status: 2, msg: 'Ready'};
     };
 
+    ext.return_query = function(data, callback) {
+        if(!(data instanceof Array) || data.length !=1) {
+            callback(data);
+        }
+        else {
+            callback(data[0]);
+        }
+    };
+
     ext.iottalk_remote_get = function(feature,callback) {
         /* global $ */
         
         if(new Date().getTime()-last_query_timestamp<250 && feature in last_query_result) {
-            callback(last_query_result[feature]['samples'][0][1][0]);
+            //callback(last_query_result[feature]['samples'][0][1][0]);
+            ext.return_query(last_query_result[feature]['samples'][0][1],callback);
         }
         else {
             $.ajax({
@@ -37,7 +47,8 @@
                     console.log(data);
                     last_query_result[feature]=data;
                     last_query_timestamp = new Date().getTime();
-                    callback(data['samples'][0][1][0]);
+                    //callback(data['samples'][0][1][0]);
+                    ext.return_query(data['samples'][0][1],callback);
                 }
             });
         }
