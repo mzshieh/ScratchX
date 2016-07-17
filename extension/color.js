@@ -16,12 +16,13 @@
     };
 
     ext.hue = function(R,G,B) {
-        R = R / 255;
-        G = G / 255;
-        B = B / 255;
+        R = R / 255.0;
+        G = G / 255.0;
+        B = B / 255.0;
         var m = Math.min(R,Math.min(G,B));
         var M = Math.max(R,Math.max(G,B));
         var C = M - m;
+        console.log([R,G,B,m,M,C]);
         if(C<0.5/255) return -1.0;
         C = C * 6.0;
         if(M == R && G >= B) {
@@ -33,9 +34,7 @@
         else if(M == B) {
             return (4 + (R-G)) / C;
         }
-        else {
-            return (6 + (G-B)) / C;
-        }
+        return (6 + (G-B)) / C;
     };
 
     // Block and block menu descriptions
