@@ -51,7 +51,8 @@
                     // data should looks like:
                     // {"samples":[["2016-07-17 07:42:16.763608",[255,255,0]],["2016-07-17 07:42:14.543544",[255,255,0]]]}
                     console.log(data);
-                    if(!(feature in last_query_result) || last_query_result[feature]!=data) {
+                    if(!(feature in last_query_result) || !(last_query_result[feature]==data)) {
+                        console.log(last_query_result[feature]);
                         lately_updated[feature] = true;
                     }
                     last_query_result[feature]=data;
