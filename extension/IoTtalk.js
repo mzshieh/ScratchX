@@ -32,13 +32,12 @@
     };
 
     ext.iottalk_remote_get = function(feature,callback) {
-        /* global $ */
-        
         if(new Date().getTime()-last_query_timestamp<250 && feature in last_query_result) {
             //callback(last_query_result[feature]['samples'][0][1][0]);
             ext.return_query(last_query_result[feature]['samples'][0][1],callback);
         }
         else {
+            /* global $ */
             $.ajax({
                 url: root_url+'IoTtalk_Control_Panel/'+feature,
                 dataType: 'json',
