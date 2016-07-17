@@ -30,22 +30,22 @@
 
     // On a single element array, return the only element
     // otherwise, return the whole list
-    ext.return_query = function(data, callback) {
-        if(!(data instanceof Array) || data.length !=1) {
+    ext.return_query = function(item, data, callback) {
+        if(!(data instanceof Array) || item < 0) {
             callback(data);
         }
         else {
-            callback(data[0]);
+            callback(data[item]);
         }
     };
 
     // todo: consider decoupling get and trigger
-    ext.iottalk_remote_get = function(feature,callback) {
+    ext.iottalk_remote_get = function(item,feature,callback) {
         var new_query_timestamp = new Date().getTime();
         if(new_query_timestamp-last_query_timestamp<flood_threshold && feature in last_query_result) {
             // last query should looks like:
             // {"samples":[["2016-07-17 07:42:16.763608",[255,255,0]],["2016-07-17 07:42:14.543544",[255,255,0]]]}
-            ext.return_query(last_query_result[feature]['samples'][0][1],callback);
+            ext.return_query(item,last_query_result[feature]['samples'][0][1],callback);
         }
         else {
             // trying to prevent ajax query in next flood_threshold ms
@@ -64,17 +64,21 @@
                         lately_updated[feature] = (feature in lately_updated);
                     }
                     last_query_result[feature]=data;
-                    ext.return_query(data['samples'][0][1],callback);
+                    ext.return_query(item,data['samples'][0][1],callback);
                 }
             });
         }
     };
     
+    ext.iottalk_remote_get_all = function(feature,callback) {
+        ext.iottalk_remote_get(-1,feature,callback);
+    }
+    
     // todo: improve avoiding to trigger at the opening
     ext.iottalk_updated = function(feature) {
 
         if(!(feature in lately_updated)) {
-            ext.iottalk_remote_get(feature,function(){});
+            ext.iottalk_remote_get(-1,feature,function(){});
             return false;
         }
         
@@ -85,7 +89,7 @@
 
         var new_query_timestamp = new Date().getTime();
         if(new_query_timestamp-last_query_timestamp>=flood_threshold) {
-            ext.iottalk_remote_get(feature,function(){});
+            ext.iottalk_remote_get(-1,feature,function(){});
         }
         
         return false;
@@ -120,7 +124,8 @@
     var descriptor = {
         blocks: [
             // Block type, block name, function name
-            ['R', 'get %s from Remote', 'iottalk_remote_get', 'Keypad1'],
+            ['R', 'get %s from Remote', 'iottalk_remote_get_all', 'Keypad1'],
+            ['R', 'get item %n of %s from Remote', 'iottalk_remote_get', 0, 'Keypad1'],
             // emit string
             // ['w', 'Remote %s emit %s', 'iottalk_remote_put', 'Keypad1', '7'],
             // emit number
