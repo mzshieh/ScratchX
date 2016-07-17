@@ -26,7 +26,7 @@
         /* global $ */
         
         if(new Date().getTime()-last_query_timestamp<250 && feature in last_query_result) {
-            callback(last_query_result[feature]);
+            callback(last_query_result[feature]['samples'][0][1][0]);
         }
         else {
             $.ajax({
@@ -35,7 +35,7 @@
                 success: function( data ) {
                   // Got the data - parse it and return the temperature
                     console.log(data);
-                    last_query_result[feature]=data['samples'][0][1][0];
+                    last_query_result[feature]=data;
                     last_query_timestamp = new Date().getTime();
                     callback(data['samples'][0][1][0]);
                 }
@@ -72,8 +72,10 @@
         blocks: [
             // Block type, block name, function name
             ['R', 'get %s from Remote', 'iottalk_remote_get', 'Keypad1'],
-            ['w', 'Remote %s emit string %s', 'iottalk_remote_put', 'Keypad1', '7'],
-            ['w', 'Remote %s emit value %n', 'iottalk_remote_put', 'Keypad1', 6],
+            // emit string
+            // ['w', 'Remote %s emit %s', 'iottalk_remote_put', 'Keypad1', '7'],
+            // emit number
+            ['w', 'Remote %s emit %n', 'iottalk_remote_put', 'Keypad1', 6],
         ],
     };
 
