@@ -39,6 +39,7 @@
         }
     };
 
+    // todo: consider decoupling get and trigger
     ext.iottalk_remote_get = function(feature,callback) {
         var new_query_timestamp = new Date().getTime();
         if(new_query_timestamp-last_query_timestamp<flood_threshold && feature in last_query_result) {
@@ -47,7 +48,7 @@
             ext.return_query(last_query_result[feature]['samples'][0][1],callback);
         }
         else {
-            // trying to prevent query in next flood_threshold ms
+            // trying to prevent ajax query in next flood_threshold ms
             last_query_timestamp = new_query_timestamp;
             /* global $ */
             $.ajax({
@@ -73,19 +74,19 @@
         if(!(feature in lately_updated)) {
             return false;
         }
-        if(lately_updated[feature]===true)
-        {
+        if(lately_updated[feature]===true) {
             lately_updated[feature]=false;
             return true;
         }
+        
         var new_query_timestamp = new Date().getTime();
-        if(new_query_timestamp-last_query_timestamp>=flood_threshold)
-        {
+        if(new_query_timestamp-last_query_timestamp>=flood_threshold) {
             ext.iottalk_remote_get(feature,function(){});
         }
         return false;
     };
     
+    // dynamic datatype: data. %n for numbers, %s for strings.
     ext.iottalk_remote_put = function(feature, data, callback) {
         if(new Date().getTime()-last_emit_timestamp<flood_threshold && feature in last_emit_result) {
             callback();
