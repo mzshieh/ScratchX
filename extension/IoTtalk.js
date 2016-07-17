@@ -3,10 +3,10 @@
 (function(ext) {
     
     // root url
-    var root_url = 'http://140.113.199.229:9999/';
+    var root_url = 'http://140.113.199.200:9999/';
     
     // flood threshold in millisecond
-    var flood_threshold = 100;
+    var flood_threshold = 250;
     
     // Variables for preventing flood queries
     var last_query_timestamp = 0;
