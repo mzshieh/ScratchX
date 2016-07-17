@@ -71,8 +71,9 @@
     var descriptor = {
         blocks: [
             // Block type, block name, function name
-            ['R', 'get %s from IoTtalk Remote', 'iottalk_remote_get', 'Keypad1'],
-            ['w', 'Remote %s emit %s to IoTtalk', 'iottalk_remote_put', 'Keypad1', '7'],
+            ['R', 'get %s from Remote', 'iottalk_remote_get', 'Keypad1'],
+            ['w', 'Remote %s emit string %s', 'iottalk_remote_put', 'Keypad1', '7'],
+            ['w', 'Remote %s emit value %n', 'iottalk_remote_put', 'Keypad1', 6],
         ],
     };
 
