@@ -2,6 +2,9 @@
 
 (function(ext) {
     
+    // root url
+    var root_url = 'http://140.113.199.200:9999/';
+    
     // Variables for preventing flood queries
     var last_query_timestamp = 0;
     var last_query_result = {};
@@ -27,7 +30,7 @@
         }
         else {
             $.ajax({
-                url: 'http://140.113.199.229:9999/IoTtalk_Control_Panel/'+feature,
+                url: root_url+'IoTtalk_Control_Panel/'+feature,
                 dataType: 'json',
                 success: function( data ) {
                   // Got the data - parse it and return the temperature
@@ -49,7 +52,7 @@
             data = [data];
         }
         $.ajax({
-            'url': 'http://140.113.199.229:9999/IoTtalk_Control_Panel/'+ feature,
+            'url': root_url+'IoTtalk_Control_Panel/'+ feature,
             'method': 'PUT',
             'contentType': 'application/json',
             'data': JSON.stringify({'data': data}),
