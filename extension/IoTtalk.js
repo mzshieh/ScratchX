@@ -71,6 +71,11 @@
     };
     
     ext.iottalk_updated = function(feature) {
+        var new_query_timestamp = new Date().getTime();
+        if(new_query_timestamp-last_query_timestamp>=flood_threshold) {
+            ext.iottalk_remote_get(feature,function(){});
+        }
+
         if(!(feature in lately_updated)) {
             return false;
         }
@@ -79,10 +84,6 @@
             return true;
         }
         
-        var new_query_timestamp = new Date().getTime();
-        if(new_query_timestamp-last_query_timestamp>=flood_threshold) {
-            ext.iottalk_remote_get(feature,function(){});
-        }
         return false;
     };
     
