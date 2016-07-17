@@ -5,6 +5,9 @@
     // root url
     var root_url = 'http://140.113.199.200:9999/';
     
+    // flood threshold in millisecond
+    var flood_threshold = 250;
+    
     // Variables for preventing flood queries
     var last_query_timestamp = 0;
     var last_query_result = {};
@@ -38,13 +41,13 @@
 
     ext.iottalk_remote_get = function(feature,callback) {
         var new_query_timestamp = new Date().getTime();
-        if(new_query_timestamp-last_query_timestamp<250 && feature in last_query_result) {
+        if(new_query_timestamp-last_query_timestamp<flood_threshold && feature in last_query_result) {
             // last query should looks like:
             // {"samples":[["2016-07-17 07:42:16.763608",[255,255,0]],["2016-07-17 07:42:14.543544",[255,255,0]]]}
             ext.return_query(last_query_result[feature]['samples'][0][1],callback);
         }
         else {
-            // trying to prevent query in next 250 ms
+            // trying to prevent query in next flood_threshold ms
             last_query_timestamp = new_query_timestamp;
             /* global $ */
             $.ajax({
@@ -76,7 +79,7 @@
             return true;
         }
         var new_query_timestamp = new Date().getTime();
-        if(new_query_timestamp-last_query_timestamp>=250)
+        if(new_query_timestamp-last_query_timestamp>=flood_threshold)
         {
             ext.iottalk_remote_get(feature,function(){});
         }
@@ -84,7 +87,7 @@
     };
     
     ext.iottalk_remote_put = function(feature, data, callback) {
-        if(new Date().getTime()-last_emit_timestamp<250 && feature in last_emit_result) {
+        if(new Date().getTime()-last_emit_timestamp<flood_threshold && feature in last_emit_result) {
             callback();
             return;
         }
@@ -98,7 +101,7 @@
             'data': JSON.stringify({'data': data}),
         }).done(function (msg) {
             console.log('Successed: '+ msg);
-            last_emit_timestamp=250;
+            last_emit_timestamp=flood_threshold;
             last_emit_result[feature]=data;
             callback();
         }).fail(function (msg) {
