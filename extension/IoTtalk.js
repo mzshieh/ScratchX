@@ -61,7 +61,7 @@
                     if(!(feature in last_query_result && last_query_result[feature]['samples'][0][0]==data['samples'][0][0])) {
                         // updated if not (old feature && old time stamp)
                         console.log(last_query_result[feature]);
-                        lately_updated[feature] = true;
+                        lately_updated[feature] = (feature in lately_updated);
                     }
                     last_query_result[feature]=data;
                     ext.return_query(data['samples'][0][1],callback);
@@ -70,18 +70,22 @@
         }
     };
     
+    // todo: improve avoiding to trigger at the opening
     ext.iottalk_updated = function(feature) {
-        var new_query_timestamp = new Date().getTime();
-        if(new_query_timestamp-last_query_timestamp>=flood_threshold) {
-            ext.iottalk_remote_get(feature,function(){});
-        }
 
         if(!(feature in lately_updated)) {
+            ext.iottalk_remote_get(feature,function(){});
             return false;
         }
+        
         if(lately_updated[feature]===true) {
             lately_updated[feature]=false;
             return true;
+        }
+
+        var new_query_timestamp = new Date().getTime();
+        if(new_query_timestamp-last_query_timestamp>=flood_threshold) {
+            ext.iottalk_remote_get(feature,function(){});
         }
         
         return false;
