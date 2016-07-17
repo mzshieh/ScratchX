@@ -31,7 +31,7 @@
     // On a single element array, return the only element
     // otherwise, return the whole list
     ext.return_query = function(item, data, callback) {
-        if(!(data instanceof Array) || item < 0) {
+        if(!(data instanceof Array) || item < 0 || item >= data.length) {
             callback(data);
         }
         else {
