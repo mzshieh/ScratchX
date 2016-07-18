@@ -43,7 +43,7 @@
     // todo: consider decoupling get and trigger
     ext.iottalk_remote_get = function(item,feature,callback) {
         var timestamp = new Date().getTime();
-        console.log(last_query);
+        // console.log(last_query);
         if(feature in last_query && timestamp-last_query[feature]['timestamp']<flood_threshold) {
             // last query should looks like:
             // {"samples":[["2016-07-17 07:42:16.763608",[255,255,0]],["2016-07-17 07:42:14.543544",[255,255,0]]]}
@@ -62,15 +62,21 @@
                 success: function( data ) {
                     // data should looks like:
                     // {"samples":[["2016-07-17 07:42:16.763608",[255,255,0]],["2016-07-17 07:42:14.543544",[255,255,0]]]}
-                    console.log(data);
+                    // console.log(data);
                     if(!('result' in last_query[feature] && last_query[feature]['result']['samples'][0][0]==data['samples'][0][0])) {
                         // updated if not (feature has old results && old time stamp)
-                        console.log(last_query[feature]['result']);
+                        // console.log(last_query[feature]['result']);
                         // set to false for the first time
                         lately_updated[feature] = (feature in lately_updated);
                     }
                     last_query[feature]['result']=data;
                     ext.return_query(item,data['samples'][0][1],callback);
+                },
+                error: function(xhr, status, err) {
+                    console.log(xhr);
+                    console.log(status);
+                    console.log(err);
+                    callback('');
                 }
             });
         }
@@ -122,12 +128,12 @@
             'contentType': 'application/json',
             'data': JSON.stringify({'data': data}),
         }).done(function (msg) {
-            console.log('Successed: '+ msg);
+            // console.log('Successed: '+ msg);
             last_emit_timestamp=flood_threshold;
             last_emit_result[feature]=data;
             callback();
         }).fail(function (msg) {
-            console.log('failed: '+ msg.status +','+ msg.responseText);
+            // console.log('failed: '+ msg.status +','+ msg.responseText);
             callback();
         });
     };
