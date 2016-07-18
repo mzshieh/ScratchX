@@ -43,7 +43,7 @@
     // todo: consider decoupling get and trigger
     ext.iottalk_remote_get = function(item,feature,callback) {
         var timestamp = new Date().getTime();
-        if(feature in last_query && timestamp-last_query[feature]['timestamp']<flood_threshold && ) {
+        if(feature in last_query && timestamp-last_query[feature]['timestamp']<flood_threshold) {
             // last query should looks like:
             // {"samples":[["2016-07-17 07:42:16.763608",[255,255,0]],["2016-07-17 07:42:14.543544",[255,255,0]]]}
             ext.return_query(item,last_query[feature]['result']['samples'][0][1],callback);
