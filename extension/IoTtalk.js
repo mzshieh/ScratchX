@@ -9,8 +9,8 @@
     var flood_threshold = 250;
     
     // Variables for preventing flood queries
-    var last_query_timestamp = 0;
-    var last_query_result = {};
+//    var last_query_timestamp = 0;
+//    var last_query_result = {};
     var last_query = {};
     
     // Variables for preventing flood emission
@@ -81,7 +81,7 @@
 
         console.log(feature);
 
-        if(!(feature in lately_updated)) {
+        if(!(feature in last_query)) {
             ext.iottalk_remote_get(-1,feature,function(){});
             return false;
         }
@@ -96,7 +96,7 @@
         console.log(feature+' is not lately updated');
 
         var timestamp = new Date().getTime();
-        if(timestamp-last_query['feature']['timestamp']>=flood_threshold) {
+        if(timestamp-last_query[feature]['timestamp']>=flood_threshold) {
             ext.iottalk_remote_get(-1,feature,function(){});
         }
         
