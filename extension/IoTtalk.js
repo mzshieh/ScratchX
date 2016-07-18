@@ -43,6 +43,7 @@
     // todo: consider decoupling get and trigger
     ext.iottalk_remote_get = function(item,feature,callback) {
         var timestamp = new Date().getTime();
+        console.log(last_query);
         if(feature in last_query && timestamp-last_query[feature]['timestamp']<flood_threshold) {
             // last query should looks like:
             // {"samples":[["2016-07-17 07:42:16.763608",[255,255,0]],["2016-07-17 07:42:14.543544",[255,255,0]]]}
@@ -59,8 +60,8 @@
                     // data should looks like:
                     // {"samples":[["2016-07-17 07:42:16.763608",[255,255,0]],["2016-07-17 07:42:14.543544",[255,255,0]]]}
                     console.log(data);
-                    if(!(feature in last_query && last_query[feature]['result']['samples'][0][0]==data['samples'][0][0])) {
-                        // updated if not (old feature && old time stamp)
+                    if(!('result' in last_query[feature] && last_query[feature]['result']['samples'][0][0]==data['samples'][0][0])) {
+                        // updated if not (feature has old results && old time stamp)
                         console.log(last_query[feature]['result']);
                         // set to false for the first time
                         lately_updated[feature] = (feature in lately_updated);
@@ -79,21 +80,21 @@
     // todo: improve avoiding to trigger at the opening
     ext.iottalk_updated = function(feature) {
 
-        console.log(feature);
+        // console.log(feature);
 
         if(!(feature in last_query)) {
             ext.iottalk_remote_get(-1,feature,function(){});
             return false;
         }
 
-        console.log(feature+' is in lately_updated');
+        // console.log(feature+' is in lately_updated');
         
         if(lately_updated[feature]===true) {
             lately_updated[feature]=false;
             return true;
         }
         
-        console.log(feature+' is not lately updated');
+        // console.log(feature+' is not lately updated');
 
         var timestamp = new Date().getTime();
         if(timestamp-last_query[feature]['timestamp']>=flood_threshold) {
