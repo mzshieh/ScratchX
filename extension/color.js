@@ -29,12 +29,12 @@
             return (G-B) / C;
         }
         else if(M == G) {
-            return (2 + (B-R)) / C;
+            return (2.0/6.0) + (B-R) / C;
         }
         else if(M == B) {
-            return (4 + (R-G)) / C;
+            return (4.0/6.0) + (R-G) / C;
         }
-        return (6 + (G-B)) / C;
+        return 1.0 + (G-B) / C;
     };
 
     // Block and block menu descriptions
