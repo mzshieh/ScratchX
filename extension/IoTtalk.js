@@ -51,6 +51,9 @@
         }
         else {
             // trying to prevent ajax query in next flood_threshold ms
+            if(!(feature in last_query)) {
+                last_query[feature]={};
+            }
             last_query[feature]['timestamp'] = timestamp;
             /* global $ */
             $.ajax({
@@ -75,7 +78,7 @@
     
     ext.iottalk_remote_get_all = function(feature,callback) {
         ext.iottalk_remote_get(-1,feature,callback);
-    }
+    };
     
     // todo: improve avoiding to trigger at the opening
     ext.iottalk_updated = function(feature) {
