@@ -54,7 +54,8 @@
                 ext.return_query(item,last_query[feature]['result']['samples'][0][1],callback);
             }
             else {
-                callback('');
+                console.log('empty query');
+                callback();
             }
         }
         else {
@@ -85,7 +86,7 @@
                     console.log(xhr);
                     console.log(status);
                     console.log(err);
-                    callback('');
+                    callback();
                 }
             });
         }
