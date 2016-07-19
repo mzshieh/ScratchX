@@ -117,7 +117,8 @@
 
         var timestamp = new Date().getTime();
         if(timestamp-last_query[feature]['timestamp']>=flood_threshold) {
-            ext.iottalk_remote_get(-1,feature,function(){});
+            console.log(timestamp);
+            ext.iottalk_remote_get(-1,feature,function(){console.log(timestamp+ ' ' + new Date().getTime())});
         }
         
         return false;
