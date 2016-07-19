@@ -8,6 +8,9 @@
     // flood threshold in millisecond
     var flood_threshold = 250;
     
+    // query timeout
+    var query_timeout = 1000;
+    
     // Variables for preventing flood queries
 //    var last_query_timestamp = 0;
 //    var last_query_result = {};
@@ -47,7 +50,12 @@
         if(feature in last_query && timestamp-last_query[feature]['timestamp']<flood_threshold) {
             // last query should looks like:
             // {"samples":[["2016-07-17 07:42:16.763608",[255,255,0]],["2016-07-17 07:42:14.543544",[255,255,0]]]}
-            ext.return_query(item,last_query[feature]['result']['samples'][0][1],callback);
+            if('result' in last_query[feature]) {
+                ext.return_query(item,last_query[feature]['result']['samples'][0][1],callback);
+            }
+            else {
+                callback('');
+            }
         }
         else {
             // trying to prevent ajax query in next flood_threshold ms
@@ -59,6 +67,7 @@
             $.ajax({
                 url: root_url+'IoTtalk_Control_Panel/'+feature,
                 dataType: 'json',
+                timeout: query_timeout,
                 success: function( data ) {
                     // data should looks like:
                     // {"samples":[["2016-07-17 07:42:16.763608",[255,255,0]],["2016-07-17 07:42:14.543544",[255,255,0]]]}
