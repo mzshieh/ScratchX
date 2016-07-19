@@ -42,9 +42,20 @@
             callback(data[item]);
         }
     };
+    
+    var lock = {};
 
     // todo: consider decoupling get and trigger
-    ext.iottalk_remote_get = function(item,feature,callback) {
+    ext.iottalk_remote_get = function(item,feature,callback_function) {
+        var callback = function(the_result){
+            callback_function(the_result);
+            lock[feature]=false;
+        };
+        if(feature in lock && lock[feature]) {
+            callback_function();
+            return;
+        }
+        lock[feature] = true;
         var timestamp = new Date().getTime();
         // console.log(last_query);
         if(feature in last_query && timestamp-last_query[feature]['timestamp']<flood_threshold) {
